@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { CharityCard } from "@/components/CharityCard";
-import { charities } from "@/data/charities";
+import { getCharities } from "@/lib/charities";
 
-const featuredCharities = charities.slice(0, 3);
-
-export default function Home() {
+export default async function Home() {
+  const charities = await getCharities();
+  const featuredCharities = charities.slice(0, 3);
   return (
     <div>
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">

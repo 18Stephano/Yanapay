@@ -1,12 +1,13 @@
 import { CharityDirectory } from "@/components/CharityDirectory";
-import { categories, charities } from "@/data/charities";
+import { getCharityPageData } from "@/lib/charities";
 
 export const metadata = {
   title: "Charity Directory | Yanapay",
   description: "Search and compare Peruvian charity profiles.",
 };
 
-export default function CharitiesPage() {
+export default async function CharitiesPage() {
+  const { charities, categories } = await getCharityPageData();
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8 max-w-3xl">

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { RatingBadge } from "@/components/RatingBadge";
 import { RatingBreakdown } from "@/components/RatingBreakdown";
-import { charities } from "@/data/charities";
+import { getCharities, getCharityBySlug } from "@/lib/charities";
 
 type CharityProfilePageProps = {
   params: Promise<{
@@ -10,7 +10,9 @@ type CharityProfilePageProps = {
   }>;
 };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const charities = await getCharities();
+
   return charities.map((charity) => ({
     slug: charity.slug,
   }));
@@ -18,7 +20,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: CharityProfilePageProps) {
   const { slug } = await params;
-  const charity = charities.find((item) => item.slug === slug);
+  const charity = await getCharityBySlug(slug);
 
   if (!charity) {
     return {
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: CharityProfilePageProps) {
 
 export default async function CharityProfilePage({ params }: CharityProfilePageProps) {
   const { slug } = await params;
-  const charity = charities.find((item) => item.slug === slug);
+  const charity = await getCharityBySlug(slug);
 
   if (!charity) {
     notFound();

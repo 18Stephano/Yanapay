@@ -24,3 +24,26 @@ export type Charity = {
   highlights: string[];
   evidence: string[];
 };
+
+export type ProjectMilestone = {
+  title: string;
+  status: "completed" | "in_progress" | "planned";
+};
+
+export type EntrepreneurshipProject = {
+  slug: string;
+  title: string;
+  tagline: string;
+  story: string;
+  founder: string;
+  team: string;
+  region: string;
+  location: string;
+  categories: string[];
+  goalAmount: number;
+  raisedAmount: number;
+  currency: string;
+  status: "active" | "funded" | "coming_soon";
+  milestones: ProjectMilestone[];
+  supportUrl: string;
+};

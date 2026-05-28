@@ -1,0 +1,70 @@
+import type { EntrepreneurshipProject } from "@/lib/types";
+
+export const projects: EntrepreneurshipProject[] = [
+  {
+    slug: "andean-artisan-collective",
+    title: "Andean Artisan Collective",
+    tagline: "A digital marketplace for Quechua textile cooperatives.",
+    story:
+      "This project helps artisan groups in the Sacred Valley sell directly to buyers, track orders, and reinvest profits into training for young weavers.",
+    founder: "María Quispe",
+    team: "6 cooperative leaders and 2 product designers",
+    region: "Cusco",
+    location: "Ollantaytambo, Peru",
+    categories: ["E-commerce", "Indigenous artisans", "Rural income"],
+    goalAmount: 18000,
+    raisedAmount: 9200,
+    currency: "USD",
+    status: "active",
+    milestones: [
+      { title: "Pilot storefront launched", status: "completed" },
+      { title: "Onboard 40 artisan listings", status: "in_progress" },
+      { title: "Launch bilingual customer support", status: "planned" },
+    ],
+    supportUrl: "https://example.org/andean-artisan-collective",
+  },
+  {
+    slug: "solar-labs-cusco",
+    title: "Solar Labs Cusco",
+    tagline: "Affordable solar kits for off-grid community centers.",
+    story:
+      "Solar Labs Cusco designs modular solar kits for schools and health posts that lack reliable electricity, with local technicians handling installation and maintenance.",
+    founder: "Diego Rojas",
+    team: "4 engineers and 8 community technicians",
+    region: "Cusco",
+    location: "Cusco, Peru",
+    categories: ["Clean energy", "Hardware", "Rural infrastructure"],
+    goalAmount: 25000,
+    raisedAmount: 14100,
+    currency: "USD",
+    status: "active",
+    milestones: [
+      { title: "Prototype kit tested in 3 villages", status: "completed" },
+      { title: "Certify installation partners", status: "in_progress" },
+      { title: "Deploy 25 community centers", status: "planned" },
+    ],
+    supportUrl: "https://example.org/solar-labs-cusco",
+  },
+  {
+    slug: "lima-food-rescue",
+    title: "Lima Food Rescue",
+    tagline: "Routing surplus food from markets to neighborhood kitchens.",
+    story:
+      "Lima Food Rescue coordinates pickup routes, cold storage, and volunteer drivers so surplus produce reaches community kitchens instead of landfills.",
+    founder: "Camila Torres",
+    team: "12 logistics volunteers and 5 kitchen partners",
+    region: "Lima",
+    location: "Lima, Peru",
+    categories: ["Food waste", "Logistics", "Social enterprise"],
+    goalAmount: 12000,
+    raisedAmount: 12000,
+    currency: "USD",
+    status: "funded",
+    milestones: [
+      { title: "Route planning software pilot", status: "completed" },
+      { title: "Expand to 8 districts", status: "completed" },
+      { title: "Launch donor transparency dashboard", status: "in_progress" },
+    ],
+    supportUrl: "https://example.org/lima-food-rescue",
+  },
+];

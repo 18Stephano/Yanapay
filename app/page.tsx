@@ -1,10 +1,14 @@
 import Link from "next/link";
 import { CharityCard } from "@/components/CharityCard";
+import { ProjectCard } from "@/components/ProjectCard";
 import { getCharities } from "@/lib/charities";
+import { getProjects } from "@/lib/projects";
 
 export default async function Home() {
   const charities = await getCharities();
+  const projects = await getProjects();
   const featuredCharities = charities.slice(0, 3);
+  const featuredProjects = projects.slice(0, 2);
   return (
     <div>
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
@@ -73,6 +77,25 @@ export default async function Home() {
         <div className="grid gap-6 lg:grid-cols-3">
           {featuredCharities.map((charity) => (
             <CharityCard key={charity.slug} charity={charity} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-16">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-amber-700">Featured projects</p>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-950">
+              Discover entrepreneurship in Peru
+            </h2>
+          </div>
+          <Link href="/entrepreneurship" className="text-sm font-bold text-amber-700">
+            View all
+          </Link>
+        </div>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {featuredProjects.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </div>
       </section>

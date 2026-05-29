@@ -64,6 +64,17 @@ function slugify(name: string) {
     .replace(/^-|-$/g, "");
 }
 
+function extractJsonPayload(text: string): string {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced?.[1]) return fenced[1].trim();
+
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start >= 0 && end > start) return text.slice(start, end + 1);
+
+  return text.trim();
+}
+
 function buildStubDraft(
   charityName: string,
   website?: string,
@@ -149,7 +160,7 @@ async function callClaude(prompt: string): Promise<ModelPayload | null> {
   const content = data.content.find((block) => block.type === "text")?.text;
   if (!content) return null;
 
-  return JSON.parse(content) as ModelPayload;
+  return JSON.parse(extractJsonPayload(content)) as ModelPayload;
 }
 
 function payloadToDraft(payload: ModelPayload, raw?: string): ResearchDraftResult {

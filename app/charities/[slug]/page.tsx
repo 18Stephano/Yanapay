@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { RatingBadge } from "@/components/RatingBadge";
-import { RatingBreakdown } from "@/components/RatingBreakdown";
+import { RatingSummary } from "@/components/RatingSummary";
 import { getCharities, getCharityBySlug } from "@/lib/charities";
 
 type CharityProfilePageProps = {
@@ -51,9 +50,8 @@ export default async function CharityProfilePage({ params }: CharityProfilePageP
       <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]">
         <section className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
           <div className="mb-6 flex flex-wrap items-center gap-3">
-            <RatingBadge rating={charity.rating} />
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-700">
-              {charity.verified ? "Verified profile" : "Verification in progress"}
+              {charity.verified ? "Perfil verificado" : "Verificación en progreso"}
             </span>
           </div>
           <p className="text-sm font-semibold text-emerald-700">{charity.location}</p>
@@ -93,9 +91,9 @@ export default async function CharityProfilePage({ params }: CharityProfilePageP
 
         <aside className="space-y-6">
           <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-bold text-slate-950">Rating breakdown</h2>
+            <h2 className="text-xl font-bold text-slate-950">Puntuación Yanapay</h2>
             <div className="mt-5">
-              <RatingBreakdown rating={charity.rating} />
+              <RatingSummary charity={charity} />
             </div>
           </div>
 

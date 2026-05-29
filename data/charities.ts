@@ -1,6 +1,9 @@
+import { charityRatingsBySlug } from "@/data/charity-ratings";
 import type { Charity } from "@/lib/types";
 
-export const charities: Charity[] = [
+type CharityProfile = Omit<Charity, "rating">;
+
+const charityProfiles: CharityProfile[] = [
   {
     slug: "kuska-educa",
     name: "Kuska Educa",
@@ -15,13 +18,6 @@ export const charities: Charity[] = [
     supportUrl: "https://example.org/kuska-educa/donate",
     contactEmail: "hola@kuskaeduca.org",
     verified: true,
-    rating: {
-      transparency: 92,
-      financialHealth: 84,
-      accountability: 88,
-      impactEvidence: 86,
-      communityTrust: 94,
-    },
     highlights: [
       "Publishes annual activity reports",
       "Tracks student attendance and grade improvement",
@@ -47,13 +43,6 @@ export const charities: Charity[] = [
     supportUrl: "https://example.org/salud-en-ruta/support",
     contactEmail: "contacto@saludenruta.org",
     verified: true,
-    rating: {
-      transparency: 81,
-      financialHealth: 78,
-      accountability: 76,
-      impactEvidence: 83,
-      communityTrust: 89,
-    },
     highlights: [
       "Works with volunteer clinicians",
       "Runs monthly neighborhood health days",
@@ -79,13 +68,6 @@ export const charities: Charity[] = [
     supportUrl: "https://example.org/amazonia-viva/donate",
     contactEmail: "equipo@amazoniaviva.org",
     verified: false,
-    rating: {
-      transparency: 74,
-      financialHealth: 72,
-      accountability: 69,
-      impactEvidence: 79,
-      communityTrust: 86,
-    },
     highlights: [
       "Supports community-led forest patrols",
       "Pilots sustainable cacao and aguaje income programs",
@@ -111,13 +93,6 @@ export const charities: Charity[] = [
     supportUrl: "https://example.org/manos-que-alimentan/support",
     contactEmail: "apoyo@manosalimentan.org",
     verified: true,
-    rating: {
-      transparency: 88,
-      financialHealth: 80,
-      accountability: 82,
-      impactEvidence: 77,
-      communityTrust: 91,
-    },
     highlights: [
       "Coordinates donations from markets and restaurants",
       "Publishes monthly meal distribution totals",
@@ -130,6 +105,11 @@ export const charities: Charity[] = [
     ],
   },
 ];
+
+export const charities: Charity[] = charityProfiles.map((profile) => ({
+  ...profile,
+  rating: charityRatingsBySlug[profile.slug],
+}));
 
 export const categories = Array.from(
   new Set(charities.flatMap((charity) => charity.categories)),

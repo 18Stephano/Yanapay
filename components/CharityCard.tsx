@@ -16,7 +16,7 @@ export function CharityCard({ charity }: CharityCardProps) {
             {charity.name}
           </h3>
         </div>
-        <RatingBadge rating={charity.rating} compact />
+        <RatingBadge rating={charity.rating} compact showConfidence />
       </div>
       <p className="text-sm leading-6 text-slate-600">{charity.tagline}</p>
       <div className="mt-5 flex flex-wrap gap-2">

@@ -1,8 +1,10 @@
 import { charities as seedCharities } from "@/data/charities";
+import { getRatingForCharity } from "@/lib/charity-ratings";
 import { createSupabaseClient } from "@/lib/supabase";
-import type { Charity, RatingBreakdown } from "@/lib/types";
+import type { Charity } from "@/lib/types";
 
 type CharityRow = {
+  id: string;
   slug: string;
   name: string;
   tagline: string;
@@ -15,12 +17,13 @@ type CharityRow = {
   support_url: string;
   contact_email: string;
   verified: boolean;
-  rating: RatingBreakdown;
   highlights: string[];
   evidence: string[];
 };
 
-function mapRowToCharity(row: CharityRow): Charity {
+async function mapRowToCharity(row: CharityRow): Promise<Charity> {
+  const rating = await getRatingForCharity(row.id, row.slug);
+
   return {
     slug: row.slug,
     name: row.name,
@@ -34,7 +37,7 @@ function mapRowToCharity(row: CharityRow): Charity {
     supportUrl: row.support_url,
     contactEmail: row.contact_email,
     verified: row.verified,
-    rating: row.rating,
+    rating,
     highlights: row.highlights,
     evidence: row.evidence,
   };
@@ -50,7 +53,7 @@ export async function getCharities(): Promise<Charity[]> {
   const { data, error } = await supabase
     .from("charities")
     .select(
-      "slug, name, tagline, mission, location, region, categories, founded, website, support_url, contact_email, verified, rating, highlights, evidence",
+      "id, slug, name, tagline, mission, location, region, categories, founded, website, support_url, contact_email, verified, highlights, evidence",
     )
     .eq("published", true)
     .order("name");
@@ -59,7 +62,7 @@ export async function getCharities(): Promise<Charity[]> {
     return seedCharities;
   }
 
-  return data.map((row) => mapRowToCharity(row as CharityRow));
+  return Promise.all(data.map((row) => mapRowToCharity(row as CharityRow)));
 }
 
 export async function getCharityBySlug(slug: string): Promise<Charity | undefined> {

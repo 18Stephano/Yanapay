@@ -131,7 +131,7 @@ async function callClaude(prompt: string): Promise<ModelPayload | null> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: process.env.ANTHROPIC_MODEL ?? "claude-3-5-haiku-latest",
+      model: process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-6",
       max_tokens: 4000,
       system: "You output only valid JSON for charity evaluation.",
       messages: [{ role: "user", content: prompt }],

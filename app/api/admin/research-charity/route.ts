@@ -2,6 +2,8 @@ import { runCharityResearch } from "@/lib/research/run-research";
 import { isAdminAuthorized, unauthorizedResponse } from "@/lib/admin-auth";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 
+export const maxDuration = 60;
+
 export async function POST(request: Request) {
   if (!isAdminAuthorized(request)) {
     return unauthorizedResponse();

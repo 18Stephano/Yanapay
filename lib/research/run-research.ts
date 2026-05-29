@@ -119,35 +119,34 @@ function buildStubDraft(
   };
 }
 
-async function callOpenAI(prompt: string): Promise<ModelPayload | null> {
-  const apiKey = process.env.OPENAI_API_KEY;
+async function callClaude(prompt: string): Promise<ModelPayload | null> {
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return null;
 
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
-      messages: [
-        { role: "system", content: "You output only valid JSON for charity evaluation." },
-        { role: "user", content: prompt },
-      ],
+      model: process.env.ANTHROPIC_MODEL ?? "claude-3-5-haiku-latest",
+      max_tokens: 4000,
+      system: "You output only valid JSON for charity evaluation.",
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.2,
-      response_format: { type: "json_object" },
     }),
   });
 
   if (!response.ok) {
-    throw new Error(`OpenAI error: ${response.status}`);
+    throw new Error(`Claude API error: ${response.status}`);
   }
 
   const data = (await response.json()) as {
-    choices: Array<{ message: { content: string } }>;
+    content: Array<{ type: "text"; text: string }>;
   };
-  const content = data.choices[0]?.message?.content;
+  const content = data.content.find((block) => block.type === "text")?.text;
   if (!content) return null;
 
   return JSON.parse(content) as ModelPayload;
@@ -213,7 +212,7 @@ export async function runCharityResearch(input: {
   );
 
   try {
-    const payload = await callOpenAI(prompt);
+    const payload = await callClaude(prompt);
     if (payload) {
       return payloadToDraft(payload);
     }
